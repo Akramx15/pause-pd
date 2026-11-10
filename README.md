@@ -148,14 +148,9 @@ adb install -r dist/pause-pd-debug.apk
 
 ## لقطات الشاشة
 
-> لا توجد لقطات بعد. أضف صورك إلى `docs/screenshots/` ثم أزل التعليق عن السطر التالي.
-
-<!--
 <p align="center">
   <img src="docs/screenshots/main.png" width="280" alt="الشاشة الرئيسية">
-  <img src="docs/screenshots/tile.png" width="280" alt="بلاطة QS">
 </p>
--->
 
 ---
 

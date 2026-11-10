@@ -1,10 +1,18 @@
 package dev.pausepd
 
 import android.app.Activity
+import android.app.StatusBarManager
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.graphics.drawable.Icon
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -15,7 +23,7 @@ import kotlin.math.abs
 
 class MainActivity : Activity() {
 
-    private enum class Status { OFF, REQUESTED, ACTIVE, NO_PPS, LOW_BATTERY, TOO_FULL, ROOT, ERROR }
+    private enum class Status { OFF, REQUESTED, ACTIVE, NO_PPS, LOW_BATTERY, TOO_FULL, ROOT, TIMEOUT, ERROR }
 
     private val io = Executors.newSingleThreadExecutor()
     private val ui = Handler(Looper.getMainLooper())
@@ -32,10 +40,19 @@ class MainActivity : Activity() {
     private lateinit var valCurrent: TextView
     private lateinit var valCharger: TextView
     private lateinit var valDc: TextView
+    private lateinit var btnTile: Button
 
     private var state: PassThrough.State? = null
     private var polling = false
     private var busy = false
+    private var requestedAt = 0L
+    private var powerRegistered = false
+
+    private val powerOff = object : BroadcastReceiver() {
+        override fun onReceive(c: Context, i: Intent) {
+            if (Prefs.resetOnUnplug(c)) io.execute { PassThrough.set(false) }
+        }
+    }
 
     private val hideError = Runnable { errText.visibility = View.GONE }
 
@@ -67,16 +84,39 @@ class MainActivity : Activity() {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
         toggle.setOnClickListener { onToggle() }
+
+        btnTile = findViewById(R.id.btnTile)
+        if (Build.VERSION.SDK_INT >= 33) {
+            btnTile.visibility = View.VISIBLE
+            btnTile.setOnClickListener { requestTile() }
+        }
+        ResetJobService.schedule(this)
     }
 
     override fun onResume() {
         super.onResume()
+        registerPower()
         ui.post(refresh)
     }
 
     override fun onPause() {
         ui.removeCallbacks(refresh)
+        unregisterPower()
         super.onPause()
+    }
+
+    private fun registerPower() {
+        if (powerRegistered) return
+        val f = IntentFilter(Intent.ACTION_POWER_DISCONNECTED)
+        if (Build.VERSION.SDK_INT >= 33) registerReceiver(powerOff, f, RECEIVER_NOT_EXPORTED)
+        else registerReceiver(powerOff, f)
+        powerRegistered = true
+    }
+
+    private fun unregisterPower() {
+        if (!powerRegistered) return
+        runCatching { unregisterReceiver(powerOff) }
+        powerRegistered = false
     }
 
     override fun onDestroy() {
@@ -119,10 +159,19 @@ class MainActivity : Activity() {
 
     private fun render(s: PassThrough.State) {
         state = s
+        val now = SystemClock.elapsedRealtime()
+        val requestedFor = if (s.requested && !s.engaged) {
+            if (requestedAt == 0L) requestedAt = now
+            now - requestedAt
+        } else {
+            requestedAt = 0L
+            0L
+        }
         val status = when {
             s.rootDenied -> Status.ROOT
             s.nodeMissing -> Status.ERROR
             s.engaged -> Status.ACTIVE
+            s.requested && requestedFor > 20_000 -> Status.TIMEOUT
             s.requested -> Status.REQUESTED
             s.chargerPresent && !s.hasPps -> Status.NO_PPS
             s.lowBattery -> Status.LOW_BATTERY
@@ -158,7 +207,7 @@ class MainActivity : Activity() {
                 else -> R.string.btn_on
             }
         )
-        progress.visibility = if (s.requested && !s.engaged) View.VISIBLE else View.GONE
+        progress.visibility = if (s.requested && !s.engaged && requestedFor <= 20_000) View.VISIBLE else View.GONE
     }
 
     private fun check(tv: TextView, ok: Boolean, label: String) {
@@ -177,6 +226,17 @@ class MainActivity : Activity() {
         }
     }
 
+    private fun requestTile() {
+        if (Build.VERSION.SDK_INT < 33) return
+        val sbm = getSystemService(StatusBarManager::class.java) ?: return
+        sbm.requestAddTileService(
+            ComponentName(this, PauseTileService::class.java),
+            getString(R.string.tile_label),
+            Icon.createWithResource(this, R.drawable.ic_pause_pd),
+            mainExecutor
+        ) { }
+    }
+
     private fun titleOf(s: Status) = when (s) {
         Status.OFF -> R.string.status_off
         Status.REQUESTED -> R.string.status_requested
@@ -185,6 +245,7 @@ class MainActivity : Activity() {
         Status.LOW_BATTERY -> R.string.status_low_battery
         Status.TOO_FULL -> R.string.status_too_full
         Status.ROOT -> R.string.status_root
+        Status.TIMEOUT -> R.string.status_timeout
         Status.ERROR -> R.string.status_error
     }
 
@@ -196,12 +257,13 @@ class MainActivity : Activity() {
         Status.LOW_BATTERY -> R.string.sub_low_battery
         Status.TOO_FULL -> R.string.sub_too_full
         Status.ROOT -> R.string.sub_root
+        Status.TIMEOUT -> R.string.sub_timeout
         Status.ERROR -> R.string.sub_error
     }
 
     private fun colorOf(s: Status) = when (s) {
         Status.ACTIVE -> R.color.accent
-        Status.REQUESTED, Status.NO_PPS, Status.LOW_BATTERY, Status.TOO_FULL -> R.color.warn
+        Status.REQUESTED, Status.NO_PPS, Status.LOW_BATTERY, Status.TOO_FULL, Status.TIMEOUT -> R.color.warn
         Status.ROOT, Status.ERROR -> R.color.danger
         Status.OFF -> R.color.muted
     }

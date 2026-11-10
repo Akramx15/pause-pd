@@ -60,6 +60,11 @@
                 android:value="Watches the foreground game while charging and toggles pass-through." />
         </service>
 
+        <service
+            android:name=".ResetJobService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <receiver
             android:name=".BootReceiver"
             android:exported="true">

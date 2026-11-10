@@ -1,0 +1,23 @@
+name: build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Build debug APK
+        run: |
+          chmod +x gradlew build.sh
+          ./build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pause-pd-debug
+          path: dist/pause-pd-debug.apk

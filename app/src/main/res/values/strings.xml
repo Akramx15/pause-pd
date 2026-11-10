@@ -62,7 +62,7 @@
     <string name="btn_grant">منح الصلاحية</string>
 
     <string name="games_title">الألعاب</string>
-    <string name="games_hint">اسم الحزمة، مثال: com.example.game</string>
+    <string name="games_hint">متقدم: اسم الحزمة (مثال: com.example.game)</string>
     <string name="btn_add">إضافة</string>
     <string name="games_empty">لا توجد ألعاب مضافة.</string>
     <string name="games_remove_hint">اضغط على الاسم لإزالته.</string>
@@ -74,7 +74,6 @@
     <string name="notif_title">مراقبة الألعاب مفعّلة</string>
     <string name="notif_text">يُفعّل الباسثرو تلقائيًا عند تشغيل لعبة من القائمة.</string>
 
-    <string name="tile_label">Pause PD</string>
     <string name="tile_active">مفعّل</string>
     <string name="tile_requested">جاري التفعيل…</string>
     <string name="tile_off">متوقف</string>
@@ -91,4 +90,8 @@
     <string name="status_too_full">البطارية مرتفعة</string>
     <string name="sub_too_full">نزّل النسبة تحت 90٪ ثم أعد المحاولة — فوق 90٪ يرجع الكرنل لمسار الشحن العادي.</string>
     <string name="tile_full">فوق 90٪</string>
+    <string name="tile_label">إيقاف الشحن</string>
+    <string name="btn_add_tile">أضف زر الإعدادات السريعة</string>
+    <string name="status_timeout">لم يبدأ التفعيل</string>
+    <string name="sub_timeout">مرّت ٢٠ ثانية بدون BYPASS_MODE — تأكد من شاحن PPS والبطارية والشحن، ثم أعد المحاولة.</string>
 </resources>

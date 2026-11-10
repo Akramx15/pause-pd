@@ -62,7 +62,7 @@
     <string name="btn_grant">Grant access</string>
 
     <string name="games_title">Games</string>
-    <string name="games_hint">Package name, e.g. com.example.game</string>
+    <string name="games_hint">Advanced: package name (e.g. com.example.game)</string>
     <string name="btn_add">Add</string>
     <string name="games_empty">No games added.</string>
     <string name="games_remove_hint">Tap a name to remove it.</string>
@@ -74,7 +74,6 @@
     <string name="notif_title">Game watch is on</string>
     <string name="notif_text">Enables pass-through when a listed game is in the foreground.</string>
 
-    <string name="tile_label">Pause PD</string>
     <string name="tile_active">Active</string>
     <string name="tile_requested">Enabling…</string>
     <string name="tile_off">Off</string>
@@ -87,8 +86,12 @@
     <string name="tile_root">No root</string>
     <string name="btn_pick">Pick an app</string>
     <string name="pick_title">Pick a game</string>
-    <string name="err_too_full">Battery is above 90% — pass-through only works below 90%.</string>
+    <string name="err_too_full" formatted="false">Battery is above 90% — pass-through only works below 90%.</string>
     <string name="status_too_full">Battery too high</string>
-    <string name="sub_too_full">Drop below 90% and retry — above 90% the kernel falls back to the normal charging path.</string>
-    <string name="tile_full">Above 90%</string>
+    <string name="sub_too_full" formatted="false">Drop below 90% and retry — above 90% the kernel falls back to the normal charging path.</string>
+    <string name="tile_full" formatted="false">Above 90%</string>
+    <string name="tile_label">Pause charging</string>
+    <string name="btn_add_tile">Add Quick Settings tile</string>
+    <string name="status_timeout">Did not engage</string>
+    <string name="sub_timeout">20 seconds without BYPASS_MODE — check the PPS charger, battery and charging state, then retry.</string>
 </resources>

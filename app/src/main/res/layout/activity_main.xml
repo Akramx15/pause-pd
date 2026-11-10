@@ -108,6 +108,17 @@
             android:textColor="@color/btn_text"
             android:textSize="18sp" />
 
+        <Button
+            android:id="@+id/btnTile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/surface2"
+            android:text="@string/btn_add_tile"
+            android:textColor="@color/text"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -182,6 +193,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/value_na"
+                    android:textDirection="ltr"
                     android:textColor="@color/text"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -213,6 +225,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/value_na"
+                    android:textDirection="ltr"
                     android:textColor="@color/text"
                     android:textSize="14sp"
                     android:textStyle="bold" />

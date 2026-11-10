@@ -5,7 +5,11 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
@@ -19,6 +23,16 @@ class GameWatchService : Service() {
     private lateinit var watch: GameWatch
     private lateinit var tick: Runnable
     private var stopped = false
+    private var powerRegistered = false
+
+    private val powerOff = object : BroadcastReceiver() {
+        override fun onReceive(c: Context, i: Intent) {
+            if (Prefs.resetOnUnplug(c)) {
+                Prefs.setArmed(c, false)
+                io.execute { PassThrough.set(false) }
+            }
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -34,6 +48,10 @@ class GameWatchService : Service() {
             }
         }
         createChannel()
+        val f = IntentFilter(Intent.ACTION_POWER_DISCONNECTED)
+        if (Build.VERSION.SDK_INT >= 33) registerReceiver(powerOff, f, RECEIVER_NOT_EXPORTED)
+        else registerReceiver(powerOff, f)
+        powerRegistered = true
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -49,6 +67,7 @@ class GameWatchService : Service() {
 
     override fun onDestroy() {
         stopped = true
+        if (powerRegistered) runCatching { unregisterReceiver(powerOff) }
         main.removeCallbacks(tick)
         if (Prefs.armed(this)) {
             Prefs.setArmed(this, false)

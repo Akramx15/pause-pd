@@ -5,8 +5,11 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 SDK="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}"
+if [ -z "$SDK" ] && [ -n "${LOCALAPPDATA:-}" ]; then
+  SDK="$LOCALAPPDATA/Android/Sdk"
+fi
 if [ -z "$SDK" ]; then
-  SDK="C:/Users/A/AppData/Local/Android/Sdk"
+  SDK="$HOME/Android/Sdk"
 fi
 if [ ! -f "$SDK/platforms/android-36/android.jar" ]; then
   echo "ERROR: Android SDK not found (looked at '$SDK')." >&2

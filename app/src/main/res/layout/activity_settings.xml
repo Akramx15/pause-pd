@@ -138,9 +138,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:backgroundTint="@color/surface2"
+            android:backgroundTint="@color/accent"
             android:text="@string/btn_pick"
-            android:textColor="@color/text"
+            android:textColor="@color/on_accent"
             android:textSize="13sp" />
 
         <TextView

@@ -14,6 +14,12 @@ class BootReceiver : BroadcastReceiver() {
                 PassThrough.set(false)
             } catch (_: Throwable) {
             } finally {
+                ResetJobService.schedule(context)
+                if (Prefs.gameWatch(context)) {
+                    runCatching {
+                        context.startForegroundService(Intent(context, GameWatchService::class.java))
+                    }
+                }
                 pending.finish()
             }
         }.start()
