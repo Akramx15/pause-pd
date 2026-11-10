@@ -22,6 +22,11 @@ class PauseTileService : TileService() {
         }
     }
 
+    override fun onDestroy() {
+        io.shutdownNow()
+        super.onDestroy()
+    }
+
     override fun onClick() {
         if (isLocked) unlockAndRun { toggle() } else toggle()
     }
@@ -54,6 +59,7 @@ class PauseTileService : TileService() {
             s.requested -> getString(R.string.tile_requested)
             s.chargerPresent && !s.hasPps -> getString(R.string.tile_no_pps)
             s.lowBattery -> getString(R.string.tile_low)
+            s.chargerPresent && s.tooFull -> getString(R.string.tile_full)
             else -> getString(R.string.tile_off)
         }
         t.state = when {

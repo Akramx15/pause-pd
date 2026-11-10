@@ -15,7 +15,7 @@ import kotlin.math.abs
 
 class MainActivity : Activity() {
 
-    private enum class Status { OFF, REQUESTED, ACTIVE, NO_PPS, LOW_BATTERY, ROOT, ERROR }
+    private enum class Status { OFF, REQUESTED, ACTIVE, NO_PPS, LOW_BATTERY, TOO_FULL, ROOT, ERROR }
 
     private val io = Executors.newSingleThreadExecutor()
     private val ui = Handler(Looper.getMainLooper())
@@ -126,6 +126,7 @@ class MainActivity : Activity() {
             s.requested -> Status.REQUESTED
             s.chargerPresent && !s.hasPps -> Status.NO_PPS
             s.lowBattery -> Status.LOW_BATTERY
+            s.chargerPresent && s.tooFull -> Status.TOO_FULL
             else -> Status.OFF
         }
 
@@ -139,7 +140,7 @@ class MainActivity : Activity() {
 
         valBattery.text = s.capacity?.let { getString(R.string.fmt_percent, it) }
             ?: getString(R.string.value_na)
-        valCurrent.text = s.currentNow?.let { getString(R.string.fmt_ma, abs(it) / 1000) }
+        valCurrent.text = s.currentNow?.let { getString(R.string.fmt_ma, abs(it)) }
             ?: getString(R.string.value_na)
         valCharger.text = when {
             !s.chargerPresent -> getString(R.string.charger_none)
@@ -172,7 +173,7 @@ class MainActivity : Activity() {
         } else {
             errText.text = msg
             errText.visibility = View.VISIBLE
-            ui.postDelayed(hideError, 8_000)
+            ui.postDelayed(hideError, 30_000)
         }
     }
 
@@ -182,6 +183,7 @@ class MainActivity : Activity() {
         Status.ACTIVE -> R.string.status_active
         Status.NO_PPS -> R.string.status_no_pps
         Status.LOW_BATTERY -> R.string.status_low_battery
+        Status.TOO_FULL -> R.string.status_too_full
         Status.ROOT -> R.string.status_root
         Status.ERROR -> R.string.status_error
     }
@@ -192,13 +194,14 @@ class MainActivity : Activity() {
         Status.ACTIVE -> R.string.sub_active
         Status.NO_PPS -> R.string.sub_no_pps
         Status.LOW_BATTERY -> R.string.sub_low_battery
+        Status.TOO_FULL -> R.string.sub_too_full
         Status.ROOT -> R.string.sub_root
         Status.ERROR -> R.string.sub_error
     }
 
     private fun colorOf(s: Status) = when (s) {
         Status.ACTIVE -> R.color.accent
-        Status.REQUESTED, Status.NO_PPS, Status.LOW_BATTERY -> R.color.warn
+        Status.REQUESTED, Status.NO_PPS, Status.LOW_BATTERY, Status.TOO_FULL -> R.color.warn
         Status.ROOT, Status.ERROR -> R.color.danger
         Status.OFF -> R.color.muted
     }

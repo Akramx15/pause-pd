@@ -52,9 +52,9 @@ class GameWatchService : Service() {
         main.removeCallbacks(tick)
         if (Prefs.armed(this)) {
             Prefs.setArmed(this, false)
-            Thread { PassThrough.set(false) }.start()
+            io.execute { PassThrough.set(false) }
         }
-        io.shutdownNow()
+        io.shutdown()
         super.onDestroy()
     }
 
@@ -75,15 +75,18 @@ class GameWatchService : Service() {
     }
 
     private fun arm(st: PassThrough.State) {
-        if (Prefs.armed(this)) return
-        if (st.requested) return // already on, leave it to the user
+        if (stopped) return
+        if (st.requested) {
+            if (!Prefs.armed(this)) Prefs.setArmed(this, true)
+            return // already on, leave it to the user
+        }
         if (PassThrough.set(true).isSuccess) Prefs.setArmed(this, true)
     }
 
     private fun disarm() {
         if (!Prefs.armed(this)) return
         Prefs.setArmed(this, false)
-        PassThrough.set(false)
+        io.execute { PassThrough.set(false) }
     }
 
     private fun createChannel() {

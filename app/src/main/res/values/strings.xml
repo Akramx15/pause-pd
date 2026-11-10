@@ -87,4 +87,8 @@
     <string name="tile_root">لا root</string>
     <string name="btn_pick">اختر من التطبيقات</string>
     <string name="pick_title">اختر لعبة</string>
+    <string name="err_too_full">البطارية أعلى من 90٪ — الباسثرو يشتغل فقط تحت 90٪.</string>
+    <string name="status_too_full">البطارية مرتفعة</string>
+    <string name="sub_too_full">نزّل النسبة تحت 90٪ ثم أعد المحاولة — فوق 90٪ يرجع الكرنل لمسار الشحن العادي.</string>
+    <string name="tile_full">فوق 90٪</string>
 </resources>

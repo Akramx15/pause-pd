@@ -87,4 +87,8 @@
     <string name="tile_root">No root</string>
     <string name="btn_pick">Pick an app</string>
     <string name="pick_title">Pick a game</string>
+    <string name="err_too_full">Battery is above 90% — pass-through only works below 90%.</string>
+    <string name="status_too_full">Battery too high</string>
+    <string name="sub_too_full">Drop below 90% and retry — above 90% the kernel falls back to the normal charging path.</string>
+    <string name="tile_full">Above 90%</string>
 </resources>

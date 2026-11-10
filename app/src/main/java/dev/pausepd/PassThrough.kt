@@ -20,7 +20,7 @@ object PassThrough {
     private const val PPS_A = 38
     private const val PPS_B = 41
 
-    enum class Err { SU_DENIED, NODE_MISSING, WRITE_FAILED, NO_CHARGER, NO_PPS, NOT_CHARGING, LOW_BATTERY, TIMEOUT, UNKNOWN }
+    enum class Err { SU_DENIED, NODE_MISSING, WRITE_FAILED, NO_CHARGER, NO_PPS, NOT_CHARGING, LOW_BATTERY, TOO_FULL, TIMEOUT, UNKNOWN }
 
     class Failure(val err: Err, detail: String? = null) :
         Exception(err.name + (detail?.let { ": $it" } ?: ""))
@@ -38,9 +38,10 @@ object PassThrough {
         val engaged: Boolean get() = dcStatus == "BYPASS_MODE"
         val requested: Boolean get() = passThrough != null && passThrough != 0
         val hasPps: Boolean get() = online == PPS_A || online == PPS_B
-        val chargerPresent: Boolean get() = (online ?: 0) > 0
+        val chargerPresent: Boolean get() = (online ?: 0) > 1
         val charging: Boolean get() = status.equals("Charging", ignoreCase = true)
         val lowBattery: Boolean get() = capacity != null && capacity <= 20
+        val tooFull: Boolean get() = capacity != null && capacity > 90
     }
 
     private val READ_SCRIPT = """
@@ -56,11 +57,9 @@ object PassThrough {
     fun read(): State {
         val (code, out) = exec(listOf("su", "-c", READ_SCRIPT), READ_TIMEOUT_MS)
         if (code == 0 && out.isNotBlank()) return parse(out)
-        val (shCode, shOut) = exec(listOf("sh", "-c", READ_SCRIPT), READ_TIMEOUT_MS)
-        val denied = code != 0 && (code == -2 ||
-            out.contains("denied", true) || out.contains("permission", true) || out.isBlank())
+        val (_, shOut) = exec(listOf("sh", "-c", READ_SCRIPT), READ_TIMEOUT_MS)
         val st = parse(shOut)
-        return if (st.passThrough == null && denied && shCode != 0) st.copy(rootDenied = true) else st
+        return if (st.passThrough == null && code != 0) st.copy(rootDenied = true) else st
     }
 
     /**
@@ -78,6 +77,7 @@ object PassThrough {
                 !now.charging -> return fail(Err.NOT_CHARGING)
                 !now.hasPps -> return fail(Err.NO_PPS)
                 now.lowBattery -> return fail(Err.LOW_BATTERY)
+                now.tooFull -> return fail(Err.TOO_FULL)
             }
         }
         val value = if (on) 1 else 0
@@ -160,6 +160,7 @@ fun Context.errText(err: PassThrough.Err): String = getString(
         PassThrough.Err.NO_PPS -> R.string.err_no_pps
         PassThrough.Err.NOT_CHARGING -> R.string.err_not_charging
         PassThrough.Err.LOW_BATTERY -> R.string.err_low_battery
+        PassThrough.Err.TOO_FULL -> R.string.err_too_full
         PassThrough.Err.TIMEOUT -> R.string.err_timeout
         PassThrough.Err.UNKNOWN -> R.string.err_unknown
     }

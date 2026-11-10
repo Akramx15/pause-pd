@@ -4,7 +4,7 @@
 
 **تمرير طاقة الشاحن إلى الهاتف مباشرةً، وإبقاء البطارية خاملة.**
 
-[![Platform](https://img.shields.io/badge/platform-Android%2012%2B-3DDC84?style=flat-square&logo=android&logoColor=white)](https://www.android.com)
+[![Platform](https://img.shields.io/badge/platform-Android%2010%2B-3DDC84?style=flat-square&logo=android&logoColor=white)](https://www.android.com)
 [![Root](https://img.shields.io/badge/root-KernelSU%20%7C%20Magisk-orange?style=flat-square)](#المتطلبات)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
@@ -59,11 +59,13 @@ Pause PD تطبيق صغير يفعّل ميزة **Pass-through** في نواة 
 - **Root** — KernelSU أو Magisk. لا حاجة لـ SELinux permissive.
 - **شاحن PD APDO / PPS** — الشواحن العادية واللاسلكية لا تعمل.
 - بطارية **أعلى من ٢٠٪** وحالة «يشحن» عند التفعيل.
-- أندرويد 12 أو أحدث (minSdk 29).
+- أندرويد 10 أو أحدث (minSdk 29).
 
 ---
 
 ## التثبيت
+
+أو نزّل الـAPK جاهز من [Releases](https://github.com/Akramx15/pause-pd/releases/latest).
 
 من المصدر:
 
