@@ -110,15 +110,12 @@ recipe is sized for.
 
 Compile target: Java 17 (`compileOptions`), desugared by D8. minSdk 29 means no multidex concerns.
 
-## Not done yet (owned by the sources agent)
+## Sources
 
-`assembleDebug` on the real project will fail until these exist — the current Kotlin files reference them:
+The sources are in the repo (`app/src/main/**`), so `./build.sh` and `./release.sh` both work as-is.
 
-- `app/src/main/AndroidManifest.xml` (activity names are relative to namespace `dev.pausepd`)
-- `app/src/main/res/layout/activity_main.xml`, `res/values/strings.xml`, `res/values/colors.xml`
-  (the code uses `R.layout.activity_main`, `R.string.*`, `R.color.accent|warn|danger|muted`)
-
-The build files need no change when those land.
+Release signing reads `keystore.properties` (gitignored, pointing at a keystore outside the repo). Without it
+`release.sh` refuses to run, and `assembleRelease` produces an unsigned APK.
 
 ## Files
 

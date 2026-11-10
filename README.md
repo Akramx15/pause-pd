@@ -156,6 +156,8 @@ adb install -r dist/pause-pd-debug.apk
 
 ## بنية المشروع
 
+> تفاصيل البناء والتوقيع: [`BUILD.md`](BUILD.md).
+
 ```
 app/src/main/
 ├── AndroidManifest.xml
