@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pause PD</string>
+    <string name="desc_settings">Settings</string>
+    <string name="settings_title">Settings</string>
+
+    <string name="status_off">Off</string>
+    <string name="status_requested">Enabling</string>
+    <string name="status_active">Active</string>
+    <string name="status_no_pps">Charger not supported</string>
+    <string name="status_low_battery">Battery low</string>
+    <string name="status_error">Error</string>
+
+    <string name="sub_off">Charging goes through the battery as usual.</string>
+    <string name="sub_requested">Request sent — engagement takes about 9 seconds.</string>
+    <string name="sub_active">Power goes straight to the phone; the battery is neither charged nor drained.</string>
+    <string name="sub_no_pps">A PD APDO / PPS charger is required. This one cannot pass power through.</string>
+    <string name="sub_low_battery">Enable only above 20%. Charge a little and retry.</string>
+    <string name="sub_error">Kernel node unreadable — unsupported device or no root.</string>
+
+    <string name="btn_on">Enable</string>
+    <string name="btn_off">Disable</string>
+    <string name="btn_working">Working…</string>
+    <string name="btn_unsupported">Unsupported</string>
+
+    <string name="sec_pre">Preconditions</string>
+    <string name="chk_pps">PPS charger</string>
+    <string name="chk_charging">Status: charging</string>
+    <string name="chk_capacity">Battery above 20%</string>
+    <string name="check_on">✓ %1$s</string>
+    <string name="check_off">✕ %1$s</string>
+
+    <string name="sec_telemetry">Live telemetry</string>
+    <string name="lbl_battery">Battery</string>
+    <string name="lbl_current">Current</string>
+    <string name="lbl_charger">Charger</string>
+    <string name="lbl_dc">DC status</string>
+
+    <string name="fmt_percent">%1$d%%</string>
+    <string name="fmt_ma">%1$d mA</string>
+    <string name="value_na">—</string>
+    <string name="charger_none">Not connected</string>
+    <string name="charger_pps">PPS / PD APDO</string>
+    <string name="charger_other">Regular charger (%1$d)</string>
+
+    <string name="explain_title">What is the difference?</string>
+    <string name="explain_body">Charging off makes the phone run from its battery: the level drops and heat rises. Pass-through feeds the charger straight to the phone and leaves the battery idle — no charge, no drain. Result: less heat and less wear during gaming or long sessions.</string>
+
+    <string name="err_su_denied">Root request denied. Grant the app in your root manager and retry.</string>
+    <string name="err_node_missing">pass_through node missing — device or kernel unsupported.</string>
+    <string name="err_write_failed">Writing the kernel node failed.</string>
+    <string name="err_no_charger">No charger connected.</string>
+    <string name="err_no_pps">This charger is not PD APDO / PPS, so pass-through cannot start.</string>
+    <string name="err_timeout">Timed out waiting for su. Open your root manager and check the grant.</string>
+    <string name="err_unknown">Unexpected error.</string>
+
+    <string name="pref_reset_title">Reset on unplug</string>
+    <string name="pref_reset_desc">Writes 0 on unplug so pass-through does not auto-engage on the next PPS charger.</string>
+    <string name="pref_game_title">Auto-enable while gaming</string>
+    <string name="pref_game_desc">Needs usage access. Only acts with a PPS charger and a battery above 20%.</string>
+    <string name="access_missing">Usage access not granted — auto-enable will not work.</string>
+    <string name="btn_grant">Grant access</string>
+
+    <string name="games_title">Games</string>
+    <string name="games_hint">Package name, e.g. com.example.game</string>
+    <string name="btn_add">Add</string>
+    <string name="games_empty">No games added.</string>
+    <string name="games_remove_hint">Tap a name to remove it.</string>
+    <string name="toast_added">Added %1$s</string>
+    <string name="toast_bad_package">Invalid package name.</string>
+    <string name="toast_no_settings">Could not open the permission screen.</string>
+
+    <string name="notif_channel">Game watch</string>
+    <string name="notif_title">Game watch is on</string>
+    <string name="notif_text">Enables pass-through when a listed game is in the foreground.</string>
+
+    <string name="tile_label">Pause PD</string>
+    <string name="tile_active">Active</string>
+    <string name="tile_requested">Enabling…</string>
+    <string name="tile_off">Off</string>
+    <string name="tile_no_pps">No PPS</string>
+    <string name="tile_low">Battery low</string>
+    <string name="err_not_charging">The phone is not charging right now — pass-through needs the Charging state.</string>
+    <string name="err_low_battery">Battery is at or below 20% — charge a little first.</string>
+    <string name="status_root">Root permission required</string>
+    <string name="sub_root">Add Pause PD in KernelSU Next → Superuser and grant root, then retry.</string>
+    <string name="tile_root">No root</string>
+    <string name="btn_pick">Pick an app</string>
+    <string name="pick_title">Pick a game</string>
+</resources>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pause PD</string>
+    <string name="desc_settings">الإعدادات</string>
+    <string name="settings_title">الإعدادات</string>
+
+    <string name="status_off">متوقف</string>
+    <string name="status_requested">جاري التفعيل</string>
+    <string name="status_active">مفعّل</string>
+    <string name="status_no_pps">الشاحن غير مدعوم</string>
+    <string name="status_low_battery">البطارية منخفضة</string>
+    <string name="status_error">خطأ</string>
+
+    <string name="sub_off">الشحن يمر عبر البطارية كالمعتاد.</string>
+    <string name="sub_requested">تم إرسال الطلب — يبدأ التفعيل خلال ٩ ثوانٍ تقريبًا.</string>
+    <string name="sub_active">الطاقة تذهب إلى الهاتف مباشرة، والبطارية لا تُشحن ولا تُفرَّغ.</string>
+    <string name="sub_no_pps">يلزم شاحن PD APDO / PPS. الشاحن الحالي لا يمرر الطاقة مباشرة.</string>
+    <string name="sub_low_battery">فعّل فقط فوق ٢٠٪. اشحن قليلًا ثم أعد المحاولة.</string>
+    <string name="sub_error">تعذّر قراءة عقدة النواة — الجهاز غير مدعوم أو لا توجد صلاحية root.</string>
+
+    <string name="btn_on">تفعيل</string>
+    <string name="btn_off">إيقاف</string>
+    <string name="btn_working">جاري…</string>
+    <string name="btn_unsupported">غير مدعوم</string>
+
+    <string name="sec_pre">شروط التفعيل</string>
+    <string name="chk_pps">شاحن PPS</string>
+    <string name="chk_charging">الحالة: يشحن</string>
+    <string name="chk_capacity">البطارية أعلى من ٢٠٪</string>
+    <string name="check_on">✓ %1$s</string>
+    <string name="check_off">✕ %1$s</string>
+
+    <string name="sec_telemetry">القياسات الحية</string>
+    <string name="lbl_battery">البطارية</string>
+    <string name="lbl_current">التيار</string>
+    <string name="lbl_charger">الشاحن</string>
+    <string name="lbl_dc">حالة DC</string>
+
+    <string name="fmt_percent">%1$d%%</string>
+    <string name="fmt_ma">%1$d mA</string>
+    <string name="value_na">—</string>
+    <string name="charger_none">غير موصول</string>
+    <string name="charger_pps">PPS / PD APDO</string>
+    <string name="charger_other">شاحن عادي (%1$d)</string>
+
+    <string name="explain_title">ما الفرق؟</string>
+    <string name="explain_body">«إيقاف الشحن» يجعل الهاتف يعمل من بطاريته: النسبة تنقص والحرارة ترتفع. الباسثرو يمرر طاقة الشاحن إلى الهاتف مباشرة ويترك البطارية خاملة — لا شحن ولا تفريغ. النتيجة: حرارة أقل وإجهاد أقل على البطارية أثناء الألعاب أو الاستخدام الطويل.</string>
+
+    <string name="err_su_denied">رُفض طلب root. اسمح للتطبيق في مدير الجذر ثم أعد المحاولة.</string>
+    <string name="err_node_missing">عقدة pass_through غير موجودة — الجهاز أو النواة غير مدعومة.</string>
+    <string name="err_write_failed">فشلت الكتابة في عقدة النواة.</string>
+    <string name="err_no_charger">لا يوجد شاحن موصول.</string>
+    <string name="err_no_pps">الشاحن ليس PD APDO / PPS، لذا لن يبدأ الباسثرو.</string>
+    <string name="err_timeout">انتهت مهلة انتظار su. افتح مدير الجذر وتحقق من المنح.</string>
+    <string name="err_unknown">خطأ غير متوقع.</string>
+
+    <string name="pref_reset_title">إعادة الضبط عند فصل الشاحن</string>
+    <string name="pref_reset_desc">يكتب 0 عند الفصل حتى لا يُفعَّل الباسثرو تلقائيًا عند وصل شاحن PPS لاحقًا.</string>
+    <string name="pref_game_title">تفعيل تلقائي أثناء الألعاب</string>
+    <string name="pref_game_desc">يتطلب صلاحية «الوصول إلى الاستخدام». يعمل فقط عند وصل شاحن PPS وبطارية فوق ٢٠٪.</string>
+    <string name="access_missing">صلاحية الوصول إلى الاستخدام غير ممنوحة — التفعيل التلقائي لن يعمل.</string>
+    <string name="btn_grant">منح الصلاحية</string>
+
+    <string name="games_title">الألعاب</string>
+    <string name="games_hint">اسم الحزمة، مثال: com.example.game</string>
+    <string name="btn_add">إضافة</string>
+    <string name="games_empty">لا توجد ألعاب مضافة.</string>
+    <string name="games_remove_hint">اضغط على الاسم لإزالته.</string>
+    <string name="toast_added">أُضيفت %1$s</string>
+    <string name="toast_bad_package">اسم الحزمة غير صالح.</string>
+    <string name="toast_no_settings">تعذّر فتح شاشة الصلاحيات.</string>
+
+    <string name="notif_channel">مراقبة الألعاب</string>
+    <string name="notif_title">مراقبة الألعاب مفعّلة</string>
+    <string name="notif_text">يُفعّل الباسثرو تلقائيًا عند تشغيل لعبة من القائمة.</string>
+
+    <string name="tile_label">Pause PD</string>
+    <string name="tile_active">مفعّل</string>
+    <string name="tile_requested">جاري التفعيل…</string>
+    <string name="tile_off">متوقف</string>
+    <string name="tile_no_pps">لا PPS</string>
+    <string name="tile_low">بطارية منخفضة</string>
+    <string name="err_not_charging">الهاتف لا يشحن الآن — الباسثرو يحتاج حالة Charging.</string>
+    <string name="err_low_battery">البطارية ٢٠٪ أو أقل — اشحن قليلًا أولًا.</string>
+    <string name="status_root">صلاحية root مطلوبة</string>
+    <string name="sub_root">أضف Pause PD في KernelSU Next ← Superuser وامنحه root، ثم أعد المحاولة.</string>
+    <string name="tile_root">لا root</string>
+    <string name="btn_pick">اختر من التطبيقات</string>
+    <string name="pick_title">اختر لعبة</string>
+</resources>
